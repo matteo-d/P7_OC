@@ -3,7 +3,6 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT;
 const cors = require("cors");
-const userRoute = require("./routes/userRoutes");
 
 app.use(express.urlencoded({extended : true} ));
 app.unsubscribe(express.json());
@@ -12,21 +11,21 @@ app.listen(port, () =>
 {
     console.log(`Express server started at http://localhost:${port}   :)`);
 });
-
 app.get('/', cors(), async (req, res) => { res.send("Express server running");});
 
 const mysql = require("mysql");
 const dbConnect = mysql.createConnection({
-    host : 'localhost',
-    user : 'matt',
-    password : 'password',
-    database : "groupomania"
+    host : process.env.HOST,
+    // Don't know why USER don't work below so USE
+    user : process.env.USE,
+    password : process.env.PASSWORD,
+    database : process.env.DATABASE
 });
 
 dbConnect.connect(function(error){
     if(error)
     { 
-        console.log("suckerz");
+        console.log("sucker");
         throw error;
     }
     console.log("DB Connected :)");

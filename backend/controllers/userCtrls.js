@@ -1,4 +1,4 @@
-/*const UserModel = require("../models/userModels.js");
+const UserModel = require("../models/userModels.js");
 
 exports.getAllUsers = (req, res) => {
     console.log("hello");

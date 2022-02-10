@@ -1,8 +1,11 @@
-/*const mysql = require("mysql");
+require('dotenv').config();
+const mysql = require("mysql");
 const dbConnect = mysql.createConnection({
-    host : 'localhost',
-    user : root,
-    password : '',
+    host : process.env.HOST,
+    // Don't know why USER don't work below so USE
+    user : process.env.USE,
+    password : process.env.PASSWORD,
+    database : process.env.DATABASE
 });
 
 dbConnect.connect(function(error){
@@ -13,5 +16,4 @@ dbConnect.connect(function(error){
     }
     console.log("DB Connected :)");
 });
-
-module.exports = dbConnect;*/
+module.exports = dbConnect;
