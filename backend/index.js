@@ -3,30 +3,56 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT;
 const cors = require("cors");
+const bodyParser = require("body-parser");
 
+//  LAUNCH EXPRESS SERVER
 app.use(express.urlencoded({extended : true} ));
+app.use(bodyParser.json());
+app.use(bodyParser.raw());
 app.unsubscribe(express.json());
 app.use(cors());
 app.listen(port, () =>
 {
     console.log(`Express server started at http://localhost:${port}   :)`);
 });
-app.get('/', cors(), async (req, res) => { res.send("Express server running");});
 
+// CORS STUFF WHATEVA
+app.use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
+    );
+    res.setHeader(
+        "Access-Control-Allow-Methods",
+        "GET, POST, PUT, DELETE, PATCH, OPTIONS"
+    );
+    next();
+});
+
+//  CONNECT TO SQL DB
 const mysql = require("mysql");
-const dbConnect = mysql.createConnection({
+const db = mysql.createConnection({
     host : process.env.HOST,
-    // Don't know why USER don't work below so USE
+    // Don't know why USER don't work below so USE as environnement variable
     user : process.env.USE,
     password : process.env.PASSWORD,
     database : process.env.DATABASE
 });
 
-dbConnect.connect(function(error){
+db.connect(function(error){
     if(error)
     { 
-        console.log("sucker");
+        console.log("Error :( Verify DB connection info");
         throw error;
     }
-    console.log("DB Connected :)");
+    console.log(`${process.env.DATABASE} database is connected at ${process.env.HOST} user is ${process.env.USE}  :)`);
 });
+
+ // ROUTES
+ app.get('/', cors(), async (req, res) => { res.send("Express server running");});
+
+ // ROUTES SIGNUP AND LOGIN
+userRoutes = require("./routes/user_routes")
+app.use("/api/auth", userRoutes);
+
