@@ -16,14 +16,11 @@ exports.signup = (req, res) => {
         console.log("TEST PASSED");
         bcrypt.hash(req.body.password, 10).then((hash) => 
         {
-            let sql = `INSERT INTO users (firstname, lastname, email, password) VALUES (${req.body.firstname}, ${req.body.lastname}, ${hash}, ${req.body.email})`;
-            db.query(sql, function (err, result) 
-            {
-              if (err) throw err;
-              console.log("1 record inserted");
-              console.log(res.send("loosdflol"));
-            });
-          
+            db.query(`INSERT INTO users (firstname, lastname, email, password) VALUES ('${req.body.firstname}', '${req.body.lastname}', '${req.body.email}', '${hash}')`,  (err, result) => {
+                if(err) throw err;
+                console.log('Data received from Db:');
+                console.log(result);
+              });
         });
     }
     else 

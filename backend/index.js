@@ -46,6 +46,6 @@ db.connect(function(error){
  app.get('/', cors(), async (req, res) => { res.send("Express server running");});
 
  // ROUTES SIGNUP AND LOGIN
-userRoutes = require("./routes/user_routes")
-app.use("/api/auth", userRoutes);
+authRoutes = require("./routes/auth_routes")
+app.use("/api/auth", authRoutes);
 
