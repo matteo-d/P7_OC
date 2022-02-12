@@ -31,7 +31,6 @@ app.use((req, res, next) => {
 });
 
 //  CONNECT TO SQL DB
-const mysql = require("mysql");
 const db = require("./db_config")
 
 db.connect(function(error){
