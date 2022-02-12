@@ -1,8 +1,8 @@
-// Password contain at least 6 character, 1 letter uppercase, 1 letter lowercase , 1 number ?
+// Return bool  Password contain at least 6 character, 1 letter uppercase, 1 letter lowercase , 1 number ?
 exports.isValidPassword = (password) => {
     return /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/.test(password);
 };
-// Email format validation
+// Return bool
 exports.isValidEmail = (email) => {
     return /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(
         email

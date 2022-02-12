@@ -1,9 +1,8 @@
 const bcrypt = require("bcrypt");
-
 require("dotenv").config();
+const db = require("../db_config")
 
 const tools = require("./tools")
-
 // SIGNUP
 // requete 
 // verifier si la requete contient seulement email password
@@ -12,32 +11,35 @@ const tools = require("./tools")
 // add a newwuser
 // Signup
 exports.signup = (req, res) => {
-    if (tools.isValidPassword(req.body.password) && tools.isValidEmail(req.body.email)) {
-        bcrypt
-            .hash(req.body.password, 10)
-            .then((hash) => {
-                const user = new User({
-                    firstname : req.body.firsname,
-                    lastname : req.body.lastname,
-                    email: req.body.email,
-                    password: hash
-                });
-                // INSERT MYSQL 
-                INSERT INTO `users` (`firstname`, `lastname`, `email`, `password`) VALUES ('Paul', 'Marco', 'matteo.lol@gmail.com', 'Password1234&');
-            })
-            .catch((error) => res.status(500).json({ error }));
-    } else {
-        res.status(401).json({
-            message: "ERROR MDP OR EMAIL",
+    console.log("Cant read req :(");
+    console.log(req.firstname);
+    if (tools.isValidPassword(req.body.password) && tools.isValidEmail(req.body.email)) 
+    {
+        bcrypt.hash(req.body.password, 10).then((hash) => 
+        {
+            let sql = `INSERT INTO users (firstname, lastname, email, password) VALUES (${req.body.firstname}, ${req.body.lastname}, ${req.body.email}, ${hash})`;
+            db.query(sql, function (err, result) {
+              if (err) throw err;
+              console.log("1 record inserted");
+            });
+          
         });
     }
-}
+    else 
+    {
+        res.status(401).json
+        ({
+            message: "ERROR MDP OR EMAIL",
+        });
+    };
+};
         
 
 
 
 
 const jwt = require("jsonwebtoken");
+const dbConnect = require("../db_config");
 const TOKEN = process.env.TOKEN;
 exports.login = (req, res) =>
 {
@@ -47,5 +49,4 @@ exports.login = (req, res) =>
         return("Missing needed values");
     };  
     console.log(` ${req.body.email}, ${req.body.password}`);  
-};
-    
+}
