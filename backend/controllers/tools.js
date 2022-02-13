@@ -22,3 +22,4 @@ exports.maskEmail = (email) => {
     let maskedEmail = finalArr.join("");
     return maskedEmail;
 };
+
