@@ -19,8 +19,7 @@ const queryDB = async (SQLquery) =>
             database : process.env.DATABASE
         });
         const result = await con.query(SQLquery);
-        
-        console.log(result)
+        console.log(result);
         return result;
     }
     catch(err)
@@ -39,8 +38,9 @@ exports.signup = async (req, res) => {
     {
         // REQUETE PEU EFFECTIVE CAR PARCOURS TOUTE LA DB 
      
-    
-        queryDB(`SELECT EXISTS(SELECT 1 FROM users WHERE email = '${req.body.email}');`);
+        (`SELECT EXISTS(SELECT 1 FROM users WHERE email = '${req.body.email}');`)
+       if (queryDB(`SELECT EXISTS(SELECT 1 FROM users WHERE email = '${req.body.email}');`) === 0)
+        {
 
             {
                 bcrypt.hash(req.body.password, 10).then((hash) => 
@@ -54,6 +54,7 @@ exports.signup = async (req, res) => {
                 });
                 return res;
             }
+        }
     }
     else
     {
