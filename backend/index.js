@@ -30,18 +30,6 @@ app.use((req, res, next) => {
     next();
 });
 
-//  CONNECT TO SQL DB
-const db = require("./db_config")
-
-db.connect(function(error){
-    if(error)
-    { 
-        console.log("Error :( Verify DB connection info");
-        throw error;
-    }
-    console.log(`${process.env.DATABASE} database is connected at ${process.env.HOST} user is ${process.env.USE}  :)`);
-});
-
  // ROUTES
  app.get('/', cors(), async (req, res) => { res.send("Express server running");});
 

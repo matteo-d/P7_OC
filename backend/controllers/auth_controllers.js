@@ -2,43 +2,71 @@ const bcrypt = require("bcrypt");
 require("dotenv").config();
 const db = require("../db_config");
 const tools = require("./tools");
+
+
+//  CONNECT TO SQL DB
+const mysql = require("mysql2/promise");
+const queryDB = async (SQLquery) =>
+{
+    try
+    {
+        const con = await mysql.createConnection
+        ({
+            host : process.env.HOST,
+            user : process.env.USE,
+            port :process.env.DB_PORT,
+            password : process.env.PASSWORD,
+            database : process.env.DATABASE
+        });
+        const result = await con.query(SQLquery);
+        
+        console.log(result)
+        return result;
+    }
+    catch(err)
+    {
+        console.log(err);
+        res = res.status(500).json
+            ({
+                message: "Error connection to DB",
+            });
+        return res;
+    }
+}
 // AJOUTER VERIFICATION SI L'EMAIL N'EST PAS DEJA PRIS 
-exports.signup = (req, res) => {
+exports.signup = async (req, res) => {
     if (req.body.firstname && req.body.lastname && tools.isValidPassword(req.body.password) && tools.isValidEmail(req.body.email)) 
     {
-        bcrypt.hash(req.body.password, 10).then((hash) => 
-        {
-            db.query(`INSERT INTO users (firstname, lastname, email, password) 
-            VALUES ('${req.body.firstname}', '${req.body.lastname}', '${req.body.email}', '${hash}')`,
-            (err, result) => 
+        // REQUETE PEU EFFECTIVE CAR PARCOURS TOUTE LA DB 
+     
+    
+        queryDB(`SELECT EXISTS(SELECT 1 FROM users WHERE email = '${req.body.email}');`);
+
             {
-                if (err)
+                bcrypt.hash(req.body.password, 10).then((hash) => 
                 {
-                    res.status(401).json
-                    ({
-                        message: "Not authorized",
-                        result: result
-                    });
-                };
-                {
-                    res.status(200).json
-                    ({
-                        message: "User registered :)",
-                        result: result
-                    });
-                };
-            });
-        });
-       
+                    queryDB(`INSERT INTO users (firstname, lastname, email, password) 
+                    VALUES ('${req.body.firstname}', '${req.body.lastname}', '${req.body.email}', '${hash}')`)       
+                });
+                res = res.status(200).json
+                ({
+                    message: "Signed Up ",
+                });
+                return res;
+            }
     }
-    else 
+    else
     {
-        res.status(401).json
-        ({
-            message: "Not authorized",
-        });
-    };
-};
+        res = res.status(500).json
+            ({
+                message: "Verify firsntame, lastname, email, password validity",
+            });
+        return res;
+
+    }
+    return res;
+}
+
 
 exports.login = (req, res) => {
     
