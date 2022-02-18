@@ -1,9 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const authCtrls = require("../controllers/auth_controllers");
+const authCtrls = require("../controllers/auth");
  
 // RAJOUTER API LIMITER BRUTE FORCE 
 router.post("/signup", authCtrls.signup);
 router.post("/login", authCtrls.login);
-
 module.exports = router;

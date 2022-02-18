@@ -14,14 +14,38 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Users.init({
-    firstname: DataTypes.STRING,
-    lastname: DataTypes.STRING,
-    email: DataTypes.STRING,
-    password: DataTypes.STRING,
-    bio: DataTypes.STRING,
-    pic: DataTypes.BLOB
-  }, {
+    firstname: 
+    {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    lastname: 
+    {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    email: 
+    {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    password: 
+    {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    bio: 
+    {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    pic: 
+    {
+      type: DataTypes.BLOB,
+      allowNull: true,
+    }}, {
     sequelize,
+    tableName: 'users',
     modelName: 'Users',
   });
   return Users;
