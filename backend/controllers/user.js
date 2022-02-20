@@ -1,27 +1,38 @@
+const bcrypt = require("bcrypt");
 require("dotenv").config();
+const TOKEN = process.env.TOKEN;
 const tools = require("./tools");
+const jwt = require("jsonwebtoken");
+const db =  require("../models");
+const User = db.User;
 
 // AJOUTER VERIFICATION SI L'EMAIL N'EST PAS DEJA PRIS 
-exports.getUserById = (req, res) => 
+exports.getUserById = async (req, res) => 
 {
-	console.log("Vous etes a la recherche par id");
-	return 0;
-
+	try
+	{
+		const users = await User.findAll({});
+		return res.status(200).send({users});
+	}
+	catch(error)
+	{
+		return res.status(500).send({ error: err });
+	}
 }
 
-exports.getAllUsers = (req, res) => 
+exports.getAllUsers = async (req, res) => 
 {
-	console.log("Vous recuperez tous les users");
-	return 0;
-
+	try
+	{
+		const users = await User.findAll({});
+		return res.status(200).send({users});
+	}
+	catch(error)
+	{
+		return res.status(500).send({ error: err });
+	}
 }
 
-exports.createUser = (req, res) => 
-{
-	console.log("Vous creez un user");
-	return 0;
-
-}
 
 exports.modifyUser = (req, res) => 
 {
