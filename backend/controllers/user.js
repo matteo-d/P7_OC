@@ -30,7 +30,7 @@ exports.modifyUser = (req, res) =>
 
 }
 
-exports.delteUser = (req, res) => 
+exports.deleteUser = (req, res) => 
 {
 	console.log("Delete Un user");
 	return 0;

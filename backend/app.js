@@ -15,7 +15,7 @@ app.use(cors());
 app.listen(process.env.PORT, async () =>
 {
     console.log(`Express server started at http://localhost:${process.env.PORT}   :)`);
-    await sequelize.sync();
+    await sequelize.sync({force : false});
     console.log(`DB Connected   :)`);
 });
 
@@ -38,6 +38,8 @@ app.use((req, res, next) => {
  app.get('/', cors(), async (req, res) => { res.send("Express server running");});
 
  // ROUTES SIGNUP AND LOGIN
-authRoutes = require("./routes/auth_routes")
+authRoutes = require("./routes/auth");
+userRoutes = require("./routes/user");
 app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
 
