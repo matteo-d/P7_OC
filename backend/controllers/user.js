@@ -39,7 +39,6 @@ exports.getAllUsers = async (req, res) =>
 	}
 }
 
-
 exports.modifyUser = async (req, res) => 
 {
 	try
@@ -55,6 +54,7 @@ exports.modifyUser = async (req, res) =>
 			  ...req.body 
 		}
 		await User.update((userObject), {where: {id : req.params.id}});
+		return res.status(200).send({msg : "SUCCESS"});
 	}
 	catch(err)
 	{
@@ -64,9 +64,8 @@ exports.modifyUser = async (req, res) =>
 
 exports.deleteUser = async (req, res) => 
 {
-	let id = req.params.id
-    
-    await User.destroy({ where: { id: id }} )
-
-    res.status(200).send('User is deleted !')
+	console.log('JEEEEERE')
+	console.log(req.params.id)
+    await User.destroy({ where: { id : req.params.id }});
+    res.status(200).send('User is deleted !');
 }
