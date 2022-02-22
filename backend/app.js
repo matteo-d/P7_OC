@@ -42,4 +42,3 @@ authRoutes = require("./routes/auth");
 userRoutes = require("./routes/user");
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
-

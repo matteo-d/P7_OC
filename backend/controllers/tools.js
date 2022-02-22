@@ -1,3 +1,6 @@
+const db =  require("../models");
+const User = db.User;
+
 // Return bool  Password contain at least 6 character, 1 letter uppercase, 1 letter lowercase , 1 number ?
 exports.isValidPassword = (password) => {
     return /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/.test(password);
@@ -23,3 +26,19 @@ exports.maskEmail = (email) => {
     return maskedEmail;
 };
 
+// The JSON WEB TOKEN egal userId ?
+exports.doJwtEgalUserId = (tokenUserId, userId) => {
+    return (tokenUserId == userId ? true : false); 
+};
+// The user exist in Database ?
+exports.doUserExist = async (reqParamsId) => {
+    try 
+	{
+        const user = await User.findOne({ where: { id : reqParamsId } });
+        return ( user === null ? false : true);
+    }
+	catch(err) 
+	{
+		return res.status(500).send({ error: err });
+    };
+};

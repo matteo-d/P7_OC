@@ -8,14 +8,16 @@ const User = db.User;
 
 // AJOUTER VERIFICATION SI L'EMAIL N'EST PAS DEJA PRIS 
 exports.signup =  async (req, res) => {
-    let {firstname, lastname, email, password} = req.body;
+    const { firstname, lastname, email, password } = req.body
     if (firstname && lastname && tools.isValidPassword(password) && tools.isValidEmail(email)) 
     {
+        let {firstname, lastname, email, password} = req.body;
         password = await bcrypt.hash(password, 10);
         try
         {
+            
             const user = await User.create({firstname, lastname, email, password});
-            return res.json(user);
+            return res.status(500).send({ data : user });
         }   
         catch(err)
         {
@@ -47,7 +49,7 @@ exports.login = async (req, res) => {
         res.status(200).json
         ({
             userId: user.id,
-            token: jwt.sign({ userId: user._id }, `${TOKEN}`,
+            token: jwt.sign({ userId: user.id }, `${TOKEN}`,
             {
                 expiresIn: "24h",
             }),

@@ -5,9 +5,9 @@ const multer = require("../middlewares/multer-config");
 const auth = require("../middlewares/auth");
  
 // RAJOUTER API LIMITER BRUTE FORCE 
-router.get("/users/:id", auth, userCtrls.getUserById);
+router.get("/:id", auth, userCtrls.getUserById);
 router.get("/", auth, userCtrls.getAllUsers);
-router.put("/users/:id", auth, userCtrls.modifyUser);
-router.delete("/users/:id", auth, userCtrls.deleteUser);
+router.put("/:id", auth, multer, userCtrls.modifyUser);
+router.delete("/:id", auth, userCtrls.deleteUser);
 
 module.exports = router;
